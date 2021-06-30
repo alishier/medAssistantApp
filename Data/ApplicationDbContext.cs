@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +9,8 @@ namespace medAssisTantApp.Data
             : base(options)
         {
         }
+        public DbSet<medAssisTantApp.Models.Doctor> Doctor { get; set; }
+        public DbSet<medAssisTantApp.Models.MedCard> MedCard { get; set; }
+        public DbSet<medAssisTantApp.Models.Patient> Patient { get; set; }
     }
 }
