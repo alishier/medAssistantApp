@@ -9,7 +9,7 @@ using medAssisTantApp.Data;
 namespace medAssisTantApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210629230817_initialMigration")]
+    [Migration("20210630122405_initialMigration")]
     partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,6 +227,9 @@ namespace medAssisTantApp.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Speciality")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using medAssisTantApp.Data;
 using medAssisTantApp.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace medAssisTantApp.Controllers
 {
@@ -14,19 +17,31 @@ namespace medAssisTantApp.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public MedCardController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public MedCardController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: MedCard
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.MedCard.Include(m => m.Patient);
-            return View(await applicationDbContext.ToListAsync());
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+            var medCard = (from medcard in _context.MedCard
+                           join patient in _context.Patient on medcard.PatientId equals patient.Id
+                           join doctor in _context.Doctor on patient.DoctorId equals doctor.Id
+                           where doctor.UserId == userEmail
+                           select medcard);
+            //var applicationDbContext = _context.MedCard.Include(m => m.Patient);
+            return View(await medCard.ToListAsync());
         }
 
         // GET: MedCard/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,9 +61,15 @@ namespace medAssisTantApp.Controllers
         }
 
         // GET: MedCard/Create
+        [Authorize]
         public IActionResult Create()
         {
-            ViewData["PatientId"] = new SelectList(_context.Patient, "Id", "Id");
+            var userEmail = User.Identity.Name;
+
+            var doctor = _context.Doctor.Where(d => d.UserId == userEmail).First();
+            var patientIdList = _context.Patient.Where(p => p.DoctorId == doctor.Id).Select(p => p.Id);
+            Console.WriteLine("new line ---------------------------------" + patientIdList.Count());
+            ViewData["PatientId"] = new SelectList(patientIdList);
             return View();
         }
 
@@ -57,6 +78,7 @@ namespace medAssisTantApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,Complain,Description,Diagnosis,Instructions,PatientId,EnrollmentDate")] MedCard medCard)
         {
             if (ModelState.IsValid)
@@ -70,6 +92,7 @@ namespace medAssisTantApp.Controllers
         }
 
         // GET: MedCard/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,6 +114,7 @@ namespace medAssisTantApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Complain,Description,Diagnosis,Instructions,PatientId,EnrollmentDate")] MedCard medCard)
         {
             if (id != medCard.Id)
@@ -123,6 +147,7 @@ namespace medAssisTantApp.Controllers
         }
 
         // GET: MedCard/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,6 +169,7 @@ namespace medAssisTantApp.Controllers
         // POST: MedCard/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var medCard = await _context.MedCard.FindAsync(id);

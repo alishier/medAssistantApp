@@ -6,8 +6,7 @@
 
 <h4>MedCard</h4>
 <hr />
-@if (ViewContext.HttpContext.User.IsInRole("Your role"))
-{
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -49,7 +48,7 @@
         </form>
     </div>
 </div>
-}
+
                 <div>
                     <a asp-action="Index">Back to List</a>
                 </div>

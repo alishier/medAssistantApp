@@ -24,6 +24,8 @@ namespace medAssisTantApp.Models
 
         public string Speciality { get; set; }
 
+        public string UserId{ get; set; }
+
         public List<Patient> Patients{ get; set; }
 
     }

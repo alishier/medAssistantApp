@@ -10,8 +10,7 @@
 <div>
     <h4>Patient</h4>
     <hr />
-    @if (ViewContext.HttpContext.User.IsInRole("Your role"))
-    {
+    
 <dl class="row">
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.Name)
@@ -38,7 +37,7 @@
         @Html.DisplayFor(model => model.Doctor.Id)
     </dd>
 </dl>
-    }
+    
 
                 <form asp-action="Delete">
                     <input type="hidden" asp-for="Id" />

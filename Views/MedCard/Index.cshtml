@@ -34,8 +34,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (ViewContext.HttpContext.User.IsInRole("Your role"))
-        {
+     
     @foreach (var item in Model)
     {
     <tr>
@@ -63,6 +62,6 @@
             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
         </td>
     </tr>}
-        }
+        
                 </tbody>
 </table>

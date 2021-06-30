@@ -9,8 +9,6 @@
 <div>
     <h4>Patient</h4>
     <hr />
-    @if (ViewContext.HttpContext.User.IsInRole("Your role"))
-    {
 <dl class="row">
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.Name)
@@ -30,14 +28,8 @@
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.Gender)
     </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Doctor)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Doctor.Id)
-    </dd>
-</dl>
-    }
+   </dl>
+    
             </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

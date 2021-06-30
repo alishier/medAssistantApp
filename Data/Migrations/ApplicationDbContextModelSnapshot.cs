@@ -227,6 +227,9 @@ namespace medAssisTantApp.Data.Migrations
                     b.Property<string>("Speciality")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Doctor");

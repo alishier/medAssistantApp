@@ -1,12 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using medAssisTantApp.Data;
 using medAssisTantApp.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace medAssisTantApp.Controllers
 {
@@ -14,18 +15,27 @@ namespace medAssisTantApp.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public DoctorController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public DoctorController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Doctor
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Doctor.ToListAsync());
+            string userEmail = User.FindFirstValue(ClaimTypes.Email);
+            Console.WriteLine("useremail : ", userEmail);
+            if (userEmail.Equals("alishier.abduaxatov@gmail.com")){
+                return View(await _context.Doctor.ToListAsync());
+            } else return NotFound();
         }
 
         // GET: Doctor/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +54,7 @@ namespace medAssisTantApp.Controllers
         }
 
         // GET: Doctor/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -54,7 +65,8 @@ namespace medAssisTantApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,Speciality")] Doctor doctor)
+        [Authorize]
+        public async Task<IActionResult> Create([Bind("Id,Name,Age,Speciality,UserId")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +78,7 @@ namespace medAssisTantApp.Controllers
         }
 
         // GET: Doctor/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,7 +99,8 @@ namespace medAssisTantApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Speciality")] Doctor doctor)
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Speciality, UserId")] Doctor doctor)
         {
             if (id != doctor.Id)
             {
@@ -117,6 +131,7 @@ namespace medAssisTantApp.Controllers
         }
 
         // GET: Doctor/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +152,7 @@ namespace medAssisTantApp.Controllers
         // POST: Doctor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var doctor = await _context.Doctor.FindAsync(id);

@@ -1,9 +1,13 @@
 ﻿<Properties StartupConfiguration="{D90816C8-B225-4433-A57D-6EF8004E7B44}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Patient/Create.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/MedCardController.cs">
     <Files>
-      <File FileName="Controllers/DoctorController.cs" Line="67" Column="1" />
-      <File FileName="Models/Doctor.cs" Line="28" Column="1" />
+      <File FileName="Controllers/PatientController.cs" Line="81" Column="46" />
       <File FileName="Views/Patient/Create.cshtml" Line="1" Column="1" />
+      <File FileName="Views/Patient/Details.cshtml" Line="30" Column="10" />
+      <File FileName="Models/Doctor.cs" Line="1" Column="1" />
+      <File FileName="Controllers/DoctorController.cs" Line="61" Column="10" />
+      <File FileName="Views/MedCard/Create.cshtml" Line="36" Column="19" />
+      <File FileName="Controllers/MedCardController.cs" Line="66" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +19,9 @@
                   <Node name="Pages" expanded="True" />
                 </Node>
               </Node>
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="MedCardController.cs" selected="True" />
+              </Node>
               <Node name="Data" expanded="True">
                 <Node name="Migrations" expanded="True" />
               </Node>
@@ -23,16 +29,13 @@
               <Node name="Properties" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Doctor" expanded="True" />
-                <Node name="Patient" expanded="True">
-                  <Node name="Create.cshtml" selected="True" />
-                </Node>
+                <Node name="MedCard" expanded="True" />
+                <Node name="Patient" expanded="True" />
+                <Node name="Shared" expanded="True" />
               </Node>
             </Node>
           </Node>
         </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
